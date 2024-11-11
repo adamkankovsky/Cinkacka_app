@@ -1,0 +1,35 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#strana, #strana1, #strana2, #dobronin, #jihlava, #city {
+    text-align: center;
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px;
+}
+
+#kotouce{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+hr {
+    margin: 20px 10px 10px 10px;
+}
+
+input, button {
+    width: 80%;
+    margin: 10px auto;
+    padding: 10px;
+}
+.page_visible{
+    display: block;
+}
+
+.page{
+    display: none;
+}
