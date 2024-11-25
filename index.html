@@ -10,7 +10,14 @@
     <script src="app.js"></script>
 </head>
 <body>
-    <div id="strana">
+    <div id="kredit" class="page_visible">
+        <form>
+            <label for="kredit">Vstupní kredit</label>
+            <input type="number" name="kredit" id="input_kredit" value="1000">
+            <button type="button" onclick="PridejKredit()">Přidej kredit</button>
+        </form>
+    </div>
+    <div id="strana" class="page">
         <div id="strana1" class="page_visible">
             <h1>Cinkacka</h1>
             <div id="kotouce">
@@ -21,12 +28,14 @@
             <hr />
             <form>
                 <button type="button" onclick="Roztoc()">Roztoč</button>
+                <button type="button" onclick="Autospin()">Autospin</button>
             </form>
             <form>
                 <label for="sazka">Sázka</label>
                 <input type="number" name="sazka" id="sazka" value="1">
             </form>
             <div id="vyhra">Vyhra: Vyhral</div>
+            <div id="current_kredit">Kredit: 0</div>
         </div>
         <div id="strana2" class="page">
             <form>

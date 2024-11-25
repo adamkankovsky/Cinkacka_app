@@ -25,13 +25,23 @@ function getRandomZnak(zasobnik_znaku){
     return zasobnik_znaku[num];
 }
 
+let kredit = 0;
+
+function PridejKredit(){
+    kredit = document.getElementById("input_kredit").value;
+    document.getElementById("current_kredit").innerText = "Kredit: " + kredit;
+    document.getElementById("strana").className = "page_visible";
+    document.getElementById("kredit").className = "page";
+}
+
 function Roztoc(){
     let zasobnik_znaku = document.getElementById("znaky").value.split(", ");
-    console.log(zasobnik_znaku);
     const refresh_rate1 = 100;
     const refresh_rate2 = 200;
     const refresh_rate3 = 300;
     const sazka = document.getElementById("sazka").value;
+    kredit = kredit - sazka;
+    document.getElementById("current_kredit").innerText = "Kredit: " + kredit;
     
     for (let i = 0; i < 20000; i++) {
         if (i % refresh_rate1 == 0){
@@ -50,9 +60,10 @@ function Roztoc(){
     const third = document.getElementById("third").textContent;
 
     if (first === second && second === third) {
-        const vyhra = (1/Math.pow((1 / zasobnik_znaku.length), 3)) * 0.75;
-        console.log(vyhra);
+        const vyhra = (Math.floor((1/Math.pow((1 / zasobnik_znaku.length), 3)) * 0.75)) * sazka;
         document.getElementById("vyhra").textContent = "Vyhra: Vyhral " + vyhra;
+        kredit = kredit + vyhra;
+        document.getElementById("current_kredit").innerText = "Kredit: " + kredit;
     } else {
         document.getElementById("vyhra").textContent = "Vyhra: Nevyhral";
     }
