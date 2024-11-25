@@ -25,6 +25,10 @@ function getRandomZnak(zasobnik_znaku){
     return zasobnik_znaku[num];
 }
 
+function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 let kredit = 0;
 
 function PridejKredit(){
@@ -34,16 +38,16 @@ function PridejKredit(){
     document.getElementById("kredit").className = "page";
 }
 
-function Roztoc(){
+async function Roztoc(){
     let zasobnik_znaku = document.getElementById("znaky").value.split(", ");
-    const refresh_rate1 = 100;
-    const refresh_rate2 = 200;
-    const refresh_rate3 = 300;
+    const refresh_rate1 = 10;
+    const refresh_rate2 = 20;
+    const refresh_rate3 = 30;
     const sazka = document.getElementById("sazka").value;
     kredit = kredit - sazka;
     document.getElementById("current_kredit").innerText = "Kredit: " + kredit;
     
-    for (let i = 0; i < 20000; i++) {
+    for (let i = 0; i < 200; i++) {
         if (i % refresh_rate1 == 0){
             document.getElementById("first").textContent = getRandomZnak(zasobnik_znaku);
         }
@@ -53,6 +57,7 @@ function Roztoc(){
         if (i % refresh_rate3 == 0){
             document.getElementById("third").textContent = getRandomZnak(zasobnik_znaku);
         }
+        await wait(1);
     }
 
     const first = document.getElementById("first").textContent;
@@ -66,5 +71,13 @@ function Roztoc(){
         document.getElementById("current_kredit").innerText = "Kredit: " + kredit;
     } else {
         document.getElementById("vyhra").textContent = "Vyhra: Nevyhral";
+    }
+}
+
+async function Autospin(){
+    for (let i = 0; i < 20; i++) {
+        await wait(100);
+        await Roztoc();
+        await wait(500);
     }
 }

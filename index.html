@@ -7,7 +7,6 @@
     <title>Cinkacka</title>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
-    <script src="app.js"></script>
 </head>
 <body>
     <div id="kredit" class="page_visible">
@@ -28,7 +27,11 @@
             <hr />
             <form>
                 <button type="button" onclick="Roztoc()">Roztoč</button>
-                <button type="button" onclick="Autospin()">Autospin</button>
+                Autospin
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                </label>
             </form>
             <form>
                 <label for="sazka">Sázka</label>
@@ -46,5 +49,6 @@
         <button type="button" onclick="ZmenStranku1()">Tocka</button>
         <button type="button" onclick="ZmenStranku2()">Nastaveni</button>
     </div>
+    <script src="app.js"></script>
 </body>
 </html>
