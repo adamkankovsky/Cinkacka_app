@@ -38,23 +38,42 @@ function PridejKredit(){
     document.getElementById("kredit").className = "page";
 }
 
-async function Roztoc(){
+houseEdge = 0.08;
+
+function calculateWinAmount(sazka, zasobnik_znaku) {
+    const numberOfSymbols = zasobnik_znaku.length;  // Počet symbolů v zásobníku
+    const reels = 3;  // Počet kotoučů
+    const winProbability = 1 / Math.pow(numberOfSymbols, reels - 1);  // Pravděpodobnost výhry (všechny kotouče stejné)
+    const fairWinAmount = Math.pow(numberOfSymbols, reels);  // Férová výplata (výplata v případě férové hry)
+
+    // Výplata pro hráče s ohledem na house edge
+    const playerWinAmount = fairWinAmount * (1 - houseEdge);
+
+    return playerWinAmount * sazka;  // Výplata pro hráče s ohledem na sázenou částku
+}
+
+async function Roztoc() {
     let zasobnik_znaku = document.getElementById("znaky").value.split(", ");
     const refresh_rate1 = 10;
     const refresh_rate2 = 20;
     const refresh_rate3 = 30;
     const sazka = document.getElementById("sazka").value;
+
+    if (kredit < sazka || sazka <= 0){
+        document.getElementById("vyhra").textContent = "Nedostatecny kredit";
+        return;
+    }
     kredit = kredit - sazka;
     document.getElementById("current_kredit").innerText = "Kredit: " + kredit;
-    
+
     for (let i = 0; i < 200; i++) {
-        if (i % refresh_rate1 == 0){
+        if (i % refresh_rate1 == 0) {
             document.getElementById("first").textContent = getRandomZnak(zasobnik_znaku);
         }
-        if (i % refresh_rate2 == 0){
+        if (i % refresh_rate2 == 0) {
             document.getElementById("second").textContent = getRandomZnak(zasobnik_znaku);
         }
-        if (i % refresh_rate3 == 0){
+        if (i % refresh_rate3 == 0) {
             document.getElementById("third").textContent = getRandomZnak(zasobnik_znaku);
         }
         await wait(1);
@@ -65,7 +84,7 @@ async function Roztoc(){
     const third = document.getElementById("third").textContent;
 
     if (first === second && second === third) {
-        const vyhra = (Math.floor((1/Math.pow((1 / zasobnik_znaku.length), 3)) * 0.75)) * sazka;
+        const vyhra = calculateWinAmount(sazka, zasobnik_znaku);
         document.getElementById("vyhra").textContent = "Vyhra: Vyhral " + vyhra;
         kredit = kredit + vyhra;
         document.getElementById("current_kredit").innerText = "Kredit: " + kredit;
@@ -74,10 +93,23 @@ async function Roztoc(){
     }
 }
 
-async function Autospin(){
-    for (let i = 0; i < 20; i++) {
-        await wait(100);
-        await Roztoc();
-        await wait(500);
+let autospin = false;
+
+function handleAutospinChange() {
+    const checkbox = document.getElementById('autospin');
+
+    if (checkbox.checked) {
+        autospin = true;
+        Autospin();
+    } else {
+        autospin = false;
+    }
+}
+
+async function Autospin() {
+    while (autospin) {
+        await wait(100);  // čekání mezi jednotlivými točeními
+        await Roztoc();   // spustí točení
+        await wait(500);  // čekání mezi točeními
     }
 }
